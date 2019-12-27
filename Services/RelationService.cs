@@ -8,16 +8,16 @@ namespace RelationApp.Services
 {
     public class RelationService : IRelationService
     {
-        private IRepository<Relation> repository;
+        private IRepository<Relation> _repository;
 
-        public RelationService(IRepository<Relation> repo)
+        public RelationService(IRepository<Relation> repository)
         {
-            repository = repo;
+            _repository = repository;
         }
 
         public IEnumerable<Relation> GetAll()
         {
-            return repository.GetAll();
+            return _repository.GetAll();
         }
 
         public IEnumerable<Relation> GetOrdered(string property) 
@@ -40,6 +40,18 @@ namespace RelationApp.Services
             return GetAll().Where(predicate);
         }
 
+        public Relation GetOne(Guid relationId)
+        {
+            if (_repository.Exists(relationId))
+            {
+                return Choose(relation => relation.Id == relationId).First();
+            }
+            else
+            {
+                throw new KeyNotFoundException("relation not found");
+            }
+        }
+
         public void Add(Relation relation)
         {
             // TODO. Move it to Automapper.
@@ -54,32 +66,40 @@ namespace RelationApp.Services
             relation.InvoiceGroupByOptions = 0;
             relation.CreatedBy = "User";
 
-            repository.Add(relation);
+            _repository.Add(relation);
             Save();
         }
 
         public void Remove(Guid relationId)
         {
-            if(repository.Exists(relationId))
+            if(_repository.Exists(relationId))
             {
                 var relation = Choose(relation => relation.Id == relationId).First();
-                repository.Remove(relation);
+                _repository.Remove(relation);
                 Save();
+            }
+            else
+            {
+                throw new KeyNotFoundException("relation not found");
             }
         }
 
         public void Update(Relation relation)
         {
-            if (repository.Exists(relation.Id))
+            if (_repository.Exists(relation.Id))
             {
-                repository.Update(relation);
+                _repository.Update(relation);
                 Save();
+            }
+            else
+            {
+                throw new KeyNotFoundException("relation not found");
             }
         }
 
         public void Save()
         {
-            repository.Save();
+            _repository.Save();
         }
     }
 }
