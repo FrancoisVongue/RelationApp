@@ -8,6 +8,7 @@ using RelationApp.Domain.Iterfaces;
 using RelationApp.Domain.Models;
 using RelationApp.Persistence.Repositories;
 using RelationApp.Services;
+using AutoMapper;
 
 namespace RelationApp.Client
 {
@@ -23,9 +24,14 @@ namespace RelationApp.Client
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(Startup));
+            
             services.AddControllersWithViews();
+            
             services.AddSingleton<DbContext,RelationAppContext>();
+           
             services.AddSingleton<IRepository<Relation>, RelationRepository>();
+
             services.AddSingleton<IRelationService, RelationService>();
         }
 
