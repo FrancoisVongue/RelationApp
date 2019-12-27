@@ -48,7 +48,7 @@ namespace RelationApp.Services
 
         public void Add(Relation relation)
         {
-            // TODO. Move it to Automapper.
+            // TODO : Move it to Automapper.
             // Map from CreateRealtionViewModel -> to Relation
             relation.Id = Guid.NewGuid();
             relation.CreatedAt = DateTime.Now;
