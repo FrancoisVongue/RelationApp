@@ -42,14 +42,8 @@ namespace RelationApp.Services
 
         public Relation GetOne(Guid relationId)
         {
-            if (_repository.Exists(relationId))
-            {
-                return Choose(relation => relation.Id == relationId).First();
-            }
-            else
-            {
-                throw new KeyNotFoundException("relation not found");
-            }
+            validateId(relationId);
+            return Choose(relation => relation.Id == relationId).First();
         }
 
         public void Add(Relation relation)
@@ -67,39 +61,35 @@ namespace RelationApp.Services
             relation.CreatedBy = "User";
 
             _repository.Add(relation);
-            Save();
+            save();
         }
 
         public void Remove(Guid relationId)
         {
-            if(_repository.Exists(relationId))
-            {
-                var relation = Choose(relation => relation.Id == relationId).First();
-                _repository.Remove(relation);
-                Save();
-            }
-            else
-            {
-                throw new KeyNotFoundException("relation not found");
-            }
+            validateId(relationId);
+            var relation = GetOne(relationId);
+            _repository.Remove(relation);
+            save();
         }
 
         public void Update(Relation relation)
         {
-            if (_repository.Exists(relation.Id))
-            {
-                _repository.Update(relation);
-                Save();
-            }
-            else
+            validateId(relation.Id);
+            _repository.Update(relation);
+            save();
+        }
+
+        private void save()
+        {
+            _repository.Save();
+        }
+
+        private void validateId(Guid id)
+        {
+            if (!_repository.Exists(id))
             {
                 throw new KeyNotFoundException("relation not found");
             }
-        }
-
-        public void Save()
-        {
-            _repository.Save();
         }
     }
 }
