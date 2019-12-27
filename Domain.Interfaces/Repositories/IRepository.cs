@@ -13,8 +13,6 @@ namespace RelationApp.Domain.Iterfaces
 
         void Update(TEntity t);
 
-        void Save();
-
         bool Exists(Guid id);
     }
 }

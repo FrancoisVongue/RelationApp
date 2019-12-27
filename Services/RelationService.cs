@@ -61,7 +61,6 @@ namespace RelationApp.Services
             relation.CreatedBy = "User";
 
             _repository.Add(relation);
-            save();
         }
 
         public void Remove(Guid relationId)
@@ -69,19 +68,12 @@ namespace RelationApp.Services
             validateId(relationId);
             var relation = GetOne(relationId);
             _repository.Remove(relation);
-            save();
         }
 
         public void Update(Relation relation)
         {
             validateId(relation.Id);
             _repository.Update(relation);
-            save();
-        }
-
-        private void save()
-        {
-            _repository.Save();
         }
 
         private void validateId(Guid id)
