@@ -44,7 +44,7 @@ namespace RelationApp.Services
         {
             // TODO. Move it to Automapper.
             // Map from CreateRealtionViewModel -> to Relation
-            relation.Id = new Guid();
+            relation.Id = Guid.NewGuid();
             relation.CreatedAt = DateTime.Now;
             relation.IsDisabled = false;
             relation.IsTemporary = false;
