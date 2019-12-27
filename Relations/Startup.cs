@@ -26,12 +26,13 @@ namespace RelationApp.Client
             services.AddAutoMapper(typeof(Startup));
             
             services.AddControllersWithViews();
-            
-            services.AddSingleton<DbContext,RelationAppContext>();
-           
-            services.AddSingleton<IRepository<Relation>, RelationRepository>();
 
-            services.AddSingleton<IRelationService, RelationService>();
+            services.AddDbContext<RelationAppContext>(options => 
+                options.UseSqlServer( Configuration.GetConnectionString("RelationsDb") ));
+           
+            services.AddScoped<IRepository<Relation>, RelationRepository>();
+
+            services.AddScoped<IRelationService, RelationService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

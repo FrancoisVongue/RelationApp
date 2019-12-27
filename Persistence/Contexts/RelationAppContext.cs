@@ -21,14 +21,8 @@ namespace RelationApp.Persistence.Contexts
         public virtual DbSet<RelationAddress> RelationAddress { get; set; }
         public virtual DbSet<RelationCategory> RelationCategory { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=MY-PC\\SQLSERVER;Database=Test;Trusted_Connection=True;");
-            }
-        }
+        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {}*/
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

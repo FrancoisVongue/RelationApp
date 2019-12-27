@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using RelationApp.Domain.Iterfaces;
 using RelationApp.Domain.Models;
+using RelationApp.Persistence.Contexts;
 using System;
 
 namespace RelationApp.Persistence.Repositories
@@ -12,7 +13,7 @@ namespace RelationApp.Persistence.Repositories
 
         private IEnumerable<Relation> _relations;
 
-        public RelationRepository(DbContext context)
+        public RelationRepository(RelationAppContext context)
         { 
             _context = context;
             _relations = context.Set<Relation>();

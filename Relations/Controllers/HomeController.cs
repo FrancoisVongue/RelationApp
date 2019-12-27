@@ -7,23 +7,23 @@ namespace RelationApp.Client.Controllers
 {
     public class HomeController : Controller
     {
-        private IRelationService service;
+        private IRelationService _service;
 
-        public HomeController(IRelationService s)
+        public HomeController(IRelationService service)
         {
-            service = s;
+            _service = service;
         }
 
         public IActionResult Index()
         {
-            var relations = service.GetAll();
+            var relations = _service.GetAll();
             return View(relations);
         }
         
         [Route("Home/Index/sortfield")]
         public IActionResult Index(string sortfield)
         {
-            return View(service.GetOrdered(sortfield));
+            return View(_service.GetOrdered(sortfield));
         }
 
         public IActionResult AddRelation(Relation relation)
@@ -34,7 +34,7 @@ namespace RelationApp.Client.Controllers
             }
             else
             {
-                service.Add(relation);
+                _service.Add(relation);
                 return RedirectToAction(nameof(Index));
             }
         }
