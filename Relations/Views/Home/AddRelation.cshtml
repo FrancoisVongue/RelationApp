@@ -1,0 +1,22 @@
+﻿@model Relation
+    <form asp-controller="Home" asp-action="AddRelation" method="post">
+        <div class="form-group">
+            <label asp-for="Name"></label>
+            <input class="form-control" type="text" asp-for="Name" />
+            <label asp-for="FullName"></label>
+            <input class="form-control" type="text" asp-for="FullName" />
+            <label asp-for="TelephoneNumber"></label>
+            <input class="form-control" type="text" asp-for="TelephoneNumber" />
+            <label asp-for="EmailAddress"></label>
+            <input class="form-control" type="text" asp-for="EmailAddress" />
+            <label asp-for="DefaultCountry"></label>
+            <input class="form-control" type="text" asp-for="DefaultCountry" />
+            <label asp-for="DefaultCity"></label>
+            <input class="form-control" type="text" asp-for="DefaultCity" />
+            <label asp-for="DefaultStreet"></label>
+            <input class="form-control" type="text" asp-for="DefaultStreet" />
+            <label asp-for="DefaultPostalCode"></label>
+            <input class="form-control" type="text" asp-for="DefaultPostalCode" />
+        </div>
+        <button type="submit" class="btn btn-success">Add another one</button>
+    </form>
