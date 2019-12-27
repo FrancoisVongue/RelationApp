@@ -7,6 +7,8 @@ namespace RelationApp.Domain.Iterfaces
     {
         IEnumerable<TEntity> GetAll();
 
+        TEntity GetOne(Guid id);
+
         void Add(TEntity t);
 
         void Remove(TEntity t);

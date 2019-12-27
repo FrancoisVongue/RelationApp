@@ -66,7 +66,7 @@ namespace RelationApp.Services
         public void Remove(Guid relationId)
         {
             validateId(relationId);
-            var relation = GetOne(relationId);
+            var relation = _repository.GetOne(relationId);
             _repository.Remove(relation);
         }
 
