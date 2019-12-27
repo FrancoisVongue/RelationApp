@@ -24,6 +24,11 @@ namespace RelationApp.Persistence.Repositories
             return _relations;
         }
 
+        public Relation GetOne(Guid id)
+        {
+            return _context.Find<Relation>(id);
+        }
+
         public void Add(Relation t)
         { 
             _context.Add(t);
