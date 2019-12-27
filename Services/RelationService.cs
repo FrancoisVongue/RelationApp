@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Linq;
 using RelationApp.Domain.Iterfaces;
 using RelationApp.Domain.Models;
@@ -30,15 +29,15 @@ namespace RelationApp.Services
                 return relations;
             }
 
-            var default_property = typeof(Relation).GetProperty(nameof(Relation.Name));
-            var property_of_choice = typeof(Relation).GetProperty(property) ?? default_property;
+            var defaultProperty = typeof(Relation).GetProperty(nameof(Relation.Name));
+            var propertyOfChoice = typeof(Relation).GetProperty(property) ?? defaultProperty;
 
-            return relations.OrderBy(relation => (string)property_of_choice.GetValue(relation));
+            return relations.OrderBy(relation => (string)propertyOfChoice.GetValue(relation));
         }
 
         public IEnumerable<Relation> Choose(Func<Relation, bool> predicate)
         {
-            return repository.Choose(predicate);
+            return GetAll().Where(predicate);
         }
 
         public void Add(Relation relation)
@@ -54,7 +53,6 @@ namespace RelationApp.Services
             relation.InvoiceDateGenerationOptions = 0;
             relation.InvoiceGroupByOptions = 0;
             relation.CreatedBy = "User";
-            //relation.DefaultPostalCode = 
 
             repository.Add(relation);
             Save();
@@ -64,8 +62,8 @@ namespace RelationApp.Services
         {
             if(repository.Exists(relationId))
             {
-                repository.Remove(repository
-                    .GetOne(relation => relation.Id == relationId));
+                var relation = Choose(relation => relation.Id == relationId).First();
+                repository.Remove(relation);
                 Save();
             }
         }

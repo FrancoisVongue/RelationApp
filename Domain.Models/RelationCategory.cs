@@ -8,6 +8,7 @@ namespace RelationApp.Domain.Models
     public partial class RelationCategory
     {
         public Guid RelationId { get; set; }
+        
         public Guid CategoryId { get; set; }
     }
 }

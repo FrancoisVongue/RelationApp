@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RelationApp.Domain.Iterfaces;
 using RelationApp.Domain.Models;
+using System.Net.Http;
 
 namespace RelationApp.Client.Controllers
 {
@@ -20,14 +21,17 @@ namespace RelationApp.Client.Controllers
             return View(service.GetOrdered(sortfield));
         }
 
-        [HttpGet]
-        public IActionResult AddRelation() => View();
-
-        [HttpPost]
         public IActionResult AddRelation(Relation relation)
         {
-            service.Add(relation);
-            return RedirectToAction(nameof(Index));
+            if (HttpContext.Request.Method == HttpMethod.Get.Method)
+            {
+                return View();
+            }
+            else
+            {
+                service.Add(relation);
+                return RedirectToAction(nameof(Index));
+            }
         }
     }
 }
