@@ -4,6 +4,7 @@ using RelationApp.Domain.Iterfaces;
 using RelationApp.Domain.Models;
 using RelationApp.Persistence.Contexts;
 using System;
+using System.Linq;
 
 namespace RelationApp.Persistence.Repositories
 {
@@ -22,6 +23,11 @@ namespace RelationApp.Persistence.Repositories
         public IEnumerable<Relation> GetAll()
         {
             return _relations;
+        }
+
+        public IEnumerable<Relation> GetFiltered(Func<Relation, bool> predicate)
+        {
+            return _relations.Where(predicate);
         }
 
         public Relation GetOne(Guid id)

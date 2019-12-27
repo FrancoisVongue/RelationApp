@@ -1,4 +1,4 @@
-﻿@model Relation
+﻿@model RelationViewModel
     <form asp-controller="Home" asp-action="AddRelation" method="post">
         <div class="form-group">
             <label asp-for="Name"></label>
@@ -17,6 +17,8 @@
             <input class="form-control" type="text" asp-for="DefaultStreet" />
             <label asp-for="DefaultPostalCode"></label>
             <input class="form-control" type="text" asp-for="DefaultPostalCode" />
+            <label asp-for="Categories"></label>
+            <input class="form-control" type="text" asp-for="Categories" />
         </div>
         <button type="submit" class="btn btn-success">Add another one</button>
     </form>

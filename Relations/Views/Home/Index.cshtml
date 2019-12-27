@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Relation>
+﻿@model IEnumerable<RelationViewModel>
     <table class="table">
         <thead class="thead-dark">
             <tr>
@@ -13,7 +13,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (Relation relation in Model)
+            @foreach (RelationViewModel relation in Model)
             {
                 <tr>
                     <td>@relation.Name</td>

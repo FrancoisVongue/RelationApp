@@ -4,11 +4,9 @@ using System.Collections.Generic;
 
 namespace RelationApp.Models
 {
-    public class RelationViewModel
-    {
-        public string Id { get; set; }
-        
-        public string IsDisabled { get; set; }
+    public class CreateRelationViewModel
+    {        
+        public bool IsDisabled { get; set; }
         
         public string Name { get; set; }
         
@@ -25,7 +23,5 @@ namespace RelationApp.Models
         public string DefaultStreet { get; set; }
         
         public string DefaultPostalCode { get; set; }
-
-        public string Categories { get; set; }
     }
 }

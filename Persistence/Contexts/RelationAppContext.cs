@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Persistence.ContextConfigurators;
+using Persistence.Configurations;
 using RelationApp.Domain.Models;
 
 namespace RelationApp.Persistence.Contexts
@@ -29,17 +29,17 @@ namespace RelationApp.Persistence.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            RelationAppConfigurator.ConfigureAddressType(modelBuilder);
+            RelationAppContextConfigurator.ConfigureAddressType(modelBuilder);
             
-            RelationAppConfigurator.ConfigureCategory(modelBuilder);
+            RelationAppContextConfigurator.ConfigureCategory(modelBuilder);
             
-            RelationAppConfigurator.ConfigureCountry(modelBuilder);
+            RelationAppContextConfigurator.ConfigureCountry(modelBuilder);
             
-            RelationAppConfigurator.ConfigureRelation(modelBuilder);
+            RelationAppContextConfigurator.ConfigureRelation(modelBuilder);
             
-            RelationAppConfigurator.ConfigureRelationAddress(modelBuilder);
+            RelationAppContextConfigurator.ConfigureRelationAddress(modelBuilder);
             
-            RelationAppConfigurator.CreateRelationCategory(modelBuilder);
+            RelationAppContextConfigurator.CreateRelationCategory(modelBuilder);
 
             OnModelCreatingPartial(modelBuilder);
         }

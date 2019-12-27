@@ -37,7 +37,7 @@ namespace RelationApp.Services
 
         public IEnumerable<Relation> Choose(Func<Relation, bool> predicate)
         {
-            return GetAll().Where(predicate);
+            return _repository.GetFiltered(predicate);
         }
 
         public Relation GetOne(Guid relationId)
@@ -48,18 +48,6 @@ namespace RelationApp.Services
 
         public void Add(Relation relation)
         {
-            // TODO : Move it to Automapper.
-            // Map from CreateRealtionViewModel -> to Relation
-            relation.Id = Guid.NewGuid();
-            relation.CreatedAt = DateTime.Now;
-            relation.IsDisabled = false;
-            relation.IsTemporary = false;
-            relation.IsMe = false;
-            relation.PaymentViaAutomaticDebit = false;
-            relation.InvoiceDateGenerationOptions = 0;
-            relation.InvoiceGroupByOptions = 0;
-            relation.CreatedBy = "User";
-
             _repository.Add(relation);
         }
 
