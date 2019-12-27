@@ -8,12 +8,17 @@ namespace RelationApp.Client.Controllers
     public class HomeController : Controller
     {
         private IRelationService service;
+
         public HomeController(IRelationService s)
         {
             service = s;
         }
 
-        public IActionResult Index() => View(service.GetAll());
+        public IActionResult Index()
+        {
+            var relations = service.GetAll();
+            return View(relations);
+        }
         
         [Route("Home/Index/sortfield")]
         public IActionResult Index(string sortfield)
