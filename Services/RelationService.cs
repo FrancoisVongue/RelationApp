@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Linq;
 using RelationApp.Domain.Iterfaces;
 using RelationApp.Domain.Models;
@@ -9,16 +8,16 @@ namespace RelationApp.Services
 {
     public class RelationService : IRelationService
     {
-        private IRepository<Relation> repository;
+        private IRepository<Relation> _repository;
 
-        public RelationService(IRepository<Relation> repo)
+        public RelationService(IRepository<Relation> repository)
         {
-            repository = repo;
+            _repository = repository;
         }
 
         public IEnumerable<Relation> GetAll()
         {
-            return repository.GetAll();
+            return _repository.GetAll();
         }
 
         public IEnumerable<Relation> GetOrdered(string property) 
@@ -30,22 +29,28 @@ namespace RelationApp.Services
                 return relations;
             }
 
-            var default_property = typeof(Relation).GetProperty(nameof(Relation.Name));
-            var property_of_choice = typeof(Relation).GetProperty(property) ?? default_property;
+            var defaultProperty = typeof(Relation).GetProperty(nameof(Relation.Name));
+            var propertyOfChoice = typeof(Relation).GetProperty(property) ?? defaultProperty;
 
-            return relations.OrderBy(relation => (string)property_of_choice.GetValue(relation));
+            return relations.OrderBy(relation => (string)propertyOfChoice.GetValue(relation));
         }
 
         public IEnumerable<Relation> Choose(Func<Relation, bool> predicate)
         {
-            return repository.Choose(predicate);
+            return GetAll().Where(predicate);
+        }
+
+        public Relation GetOne(Guid relationId)
+        {
+            validateId(relationId);
+            return Choose(relation => relation.Id == relationId).First();
         }
 
         public void Add(Relation relation)
         {
             // TODO. Move it to Automapper.
             // Map from CreateRealtionViewModel -> to Relation
-            relation.Id = new Guid();
+            relation.Id = Guid.NewGuid();
             relation.CreatedAt = DateTime.Now;
             relation.IsDisabled = false;
             relation.IsTemporary = false;
@@ -54,34 +59,29 @@ namespace RelationApp.Services
             relation.InvoiceDateGenerationOptions = 0;
             relation.InvoiceGroupByOptions = 0;
             relation.CreatedBy = "User";
-            //relation.DefaultPostalCode = 
 
-            repository.Add(relation);
-            Save();
+            _repository.Add(relation);
         }
 
         public void Remove(Guid relationId)
         {
-            if(repository.Exists(relationId))
-            {
-                repository.Remove(repository
-                    .GetOne(relation => relation.Id == relationId));
-                Save();
-            }
+            validateId(relationId);
+            var relation = GetOne(relationId);
+            _repository.Remove(relation);
         }
 
         public void Update(Relation relation)
         {
-            if (repository.Exists(relation.Id))
-            {
-                repository.Update(relation);
-                Save();
-            }
+            validateId(relation.Id);
+            _repository.Update(relation);
         }
 
-        public void Save()
+        private void validateId(Guid id)
         {
-            repository.Save();
+            if (!_repository.Exists(id))
+            {
+                throw new KeyNotFoundException("relation not found");
+            }
         }
     }
 }

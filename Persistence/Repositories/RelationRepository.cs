@@ -2,60 +2,55 @@
 using Microsoft.EntityFrameworkCore;
 using RelationApp.Domain.Iterfaces;
 using RelationApp.Domain.Models;
+using RelationApp.Persistence.Contexts;
 using System;
-using System.Linq;
 
 namespace RelationApp.Persistence.Repositories
 {
     public class RelationRepository : IRepository<Relation>
     {
-        private DbContext context;
-        private IEnumerable<Relation> relations;
+        private DbContext _context;
 
-        public RelationRepository(DbContext context)
+        private IEnumerable<Relation> _relations;
+
+        public RelationRepository(RelationAppContext context)
         { 
-            this.context = context;
-            relations = context.Set<Relation>();
+            _context = context;
+            _relations = context.Set<Relation>();
         }
 
         public IEnumerable<Relation> GetAll()
         {
-            return relations;
-        }
-
-        public IEnumerable<Relation> Choose(Func<Relation, bool> predicate)
-        {
-            return relations.Where(predicate);
-        }
-
-        public Relation GetOne(Func<Relation, bool> predicate)
-        {
-            return Choose(predicate).FirstOrDefault();
+            return _relations;
         }
 
         public void Add(Relation t)
         { 
-            context.Add(t);
+            _context.Add(t);
+            save();
         }
 
         public void Remove(Relation t)
         { 
-            context.Remove(t);
+            _context.Remove(t);
+            save();
         }
 
         public void Update(Relation t)
         { 
-            context.Update(t);
-        }
-
-        public void Save()
-        { 
-            context.SaveChanges();
+            _context.Update(t);
+            save();
         }
 
         public bool Exists(Guid id)
         {
-            return GetOne(relation => relation.Id == id) != null;
+            var result = _context.Find<Relation>(id);
+            return result == null ? false : true;
+        }
+
+        private void save()
+        { 
+            _context.SaveChanges();
         }
     }
 }

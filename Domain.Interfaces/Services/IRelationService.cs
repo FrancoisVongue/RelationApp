@@ -17,7 +17,5 @@ namespace RelationApp.Domain.Iterfaces
         public void Remove(Guid relationId);
 
         public void Update(Relation relation);
-
-        public void Save();
     }
 }
