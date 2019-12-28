@@ -1,21 +1,23 @@
 ﻿using AutoMapper;
 using RelationApp.Domain.Models;
 using RelationApp.Models;
+using RelationApp.Services;
 using System;
 
 namespace RelationApp.Profiles
 {
     public class RelationProfile : Profile
     {
-        public RelationProfile()
+        public RelationProfile(RelationService service)
         {
             CreateMap<Relation, RelationViewModel>();
             CreateMap<CreateRelationViewModel, Relation>()
                 .ConvertUsing(src => new Relation()
                 {
-                    // TODO : start here, i just added default properties
                     IsDisabled = false,
 
+                    // TODO : delete this comment Id = Guid.NewGuid(),
+                    
                     Name = src.Name,
 
                     FullName = src.FullName,
@@ -32,8 +34,6 @@ namespace RelationApp.Profiles
 
                     DefaultPostalCode = src.DefaultPostalCode,
                     
-                    Id = Guid.NewGuid(),
-                    
                     CreatedAt = DateTime.Now,
                     
                     IsTemporary = false,
@@ -47,7 +47,9 @@ namespace RelationApp.Profiles
                     InvoiceGroupByOptions = 0,
                     
                     CreatedBy = "User",
-        });
+        
+                });
         }
+
     }
 }

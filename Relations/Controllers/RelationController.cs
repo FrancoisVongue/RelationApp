@@ -5,24 +5,25 @@ using RelationApp.Domain.Models;
 using System.Net.Http;
 using System.Linq;
 using RelationApp.Models;
+using System;
 
 namespace RelationApp.Client.Controllers
 {
     public class RelationController : Controller
     {
-        private readonly IRelationService _service;
+        private readonly IRelationService _relationService;
 
         private readonly IMapper _mapper;
 
-        public RelationController(IRelationService service, IMapper mapper)
+        public RelationController(IRelationService rs, IMapper mapper)
         {
-            _service = service;
+            _relationService = rs;
             _mapper = mapper;
         }
 
         public IActionResult Index()
         {
-            var relations = _service.GetAll();
+            var relations = _relationService.GetAll();
             var mappedRelations = relations
                 .Select(relation => _mapper
                 .Map<RelationViewModel>(relation));
@@ -33,16 +34,28 @@ namespace RelationApp.Client.Controllers
         [Route("Home/Index/sortfield")]
         public IActionResult Index(string sortfield)
         {
-            return View(_service.GetOrdered(sortfield));
+            return View(_relationService.GetOrdered(sortfield));
         }
 
-        public IActionResult AddRelation(RelationViewModel relation)
+        public IActionResult AddRelation(CreateRelationViewModel view_relation)
         {
             if (HttpContext.Request.Method == HttpMethod.Post.Method)
             {
-                var unMappedRelation = _mapper.Map<Relation>(relation);
-                _service.Add(unMappedRelation);
+                var relation = _mapper.Map<Relation>(view_relation);
+                _relationService.Add(relation);
                 return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                return View();
+            }
+        }
+
+        public IActionResult Edit(EditRelationViewModel view_relation)
+        {
+            if (HttpContext.Request.Method == HttpMethod.Post.Method)
+            {
+                //TODO add edit
             }
             else
             {

@@ -42,4 +42,5 @@ namespace Persistence.Configurations
                     .IsUnicode(false);
             });
         }
+    }
 }
