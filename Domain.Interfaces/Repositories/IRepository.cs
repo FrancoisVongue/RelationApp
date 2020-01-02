@@ -10,11 +10,13 @@ namespace RelationApp.Domain.Iterfaces
 
         IEnumerable<TEntity> GetFiltered(Func<TEntity, bool> predicate);
 
-        TEntity GetOne(Guid id);
+        IEnumerable<TEntity> GetByCategory(string categoryName);
+
+        TEntity GetById(Guid id);
 
         void Add(TEntity t);
 
-        void Remove(TEntity t);
+        void Delete(TEntity t);
 
         void Update(TEntity t);
 

@@ -1,0 +1,24 @@
+﻿@model EditRelationViewModel
+    <form asp-controller="Relation" asp-action="Edit" method="post">
+        <div class="form-group">    
+            <label asp-for="Id"></label>
+            <input class="form-control" type="text" value="@Model.Id" disabled/>
+            <label asp-for="Name"></label>
+            <input class="form-control" type="text" value="@Model.Name" asp-for="Name" />
+            <label asp-for="FullName"></label>
+            <input class="form-control" type="text" value="@Model.FullName" asp-for="FullName" />
+            <label asp-for="TelephoneNumber"></label>
+            <input class="form-control" type="text" value="@Model.TelephoneNumber" asp-for="TelephoneNumber" />
+            <label asp-for="EmailAddress"></label>
+            <input class="form-control" type="text" value="@Model.EmailAddress" asp-for="EmailAddress" />
+            <label asp-for="DefaultCountry"></label>
+            <input class="form-control" type="text" value="@Model.DefaultCountry" asp-for="DefaultCountry" />
+            <label asp-for="DefaultCity"></label>
+            <input class="form-control" type="text" value="@Model.DefaultCity" asp-for="DefaultCity" />
+            <label asp-for="DefaultStreet"></label>
+            <input class="form-control" type="text" value="@Model.DefaultStreet" asp-for="DefaultStreet" />
+            <label asp-for="DefaultPostalCode"></label>
+            <input class="form-control" type="text" value="@Model.DefaultPostalCode" asp-for="DefaultPostalCode" />
+        </div>
+        <button type="submit" class="btn btn-success">Edit</button>
+    </form>

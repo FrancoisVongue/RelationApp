@@ -21,7 +21,5 @@ namespace RelationApp.Models
         public string DefaultStreet { get; set; }
 
         public string DefaultPostalCode { get; set; }
-
-        public string Category { get; set; }
     }
 }

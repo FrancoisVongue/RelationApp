@@ -3,7 +3,7 @@ using RelationApp.Domain.Models;
 
 namespace Persistence.Configurations
 {
-    internal partial class RelationAppContextConfigurator
+    public partial class RelationAppContextConfigurator
     {
         public static void ConfigureCategory(ModelBuilder builder)
         {

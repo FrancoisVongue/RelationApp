@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Linq;
 using RelationApp.Models;
 using System;
+using System.Reflection;
+using System.Collections.Generic;
 
 namespace RelationApp.Client.Controllers
 {
@@ -21,46 +23,59 @@ namespace RelationApp.Client.Controllers
             _mapper = mapper;
         }
 
-        public IActionResult Index()
-        {
-            var relations = _relationService.GetAll();
-            var mappedRelations = relations
-                .Select(relation => _mapper
-                .Map<RelationViewModel>(relation));
-
-            return View(relations);
-        }
-        
-        [Route("Home/Index/sortfield")]
         public IActionResult Index(string sortfield)
         {
-            return View(_relationService.GetOrdered(sortfield));
+            if (sortfield != null)
+            {
+                var _relations = _relationService.GetOrdered(sortfield);
+                return View(_mapper.Map<IEnumerable<RelationViewModel>>(_relations));
+            }
+
+            var relations = _relationService.GetAll();
+            return View(_mapper.Map<IEnumerable<RelationViewModel>>(relations));
         }
 
-        public IActionResult AddRelation(CreateRelationViewModel view_relation)
+        public IActionResult Create(CreateRelationViewModel viewRelation)
         {
-            if (HttpContext.Request.Method == HttpMethod.Post.Method)
-            {
-                var relation = _mapper.Map<Relation>(view_relation);
-                _relationService.Add(relation);
-                return RedirectToAction(nameof(Index));
-            }
-            else
+            if (HttpContext.Request.Method == HttpMethod.Get.Method)
             {
                 return View();
             }
+
+            var relation = _mapper.Map<Relation>(viewRelation);
+            _relationService.Add(relation);
+            return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Edit(EditRelationViewModel view_relation)
+        [HttpPost]
+        public IActionResult Edit(EditRelationViewModel viewRelation)
         {
-            if (HttpContext.Request.Method == HttpMethod.Post.Method)
+            Console.WriteLine(viewRelation.Id);
+            var relation = _relationService.GetById(viewRelation.Id);
+            var changedProperties = typeof(EditRelationViewModel).GetProperties();
+            foreach (var property in changedProperties)
             {
-                //TODO add edit
+                var changedValue = property.GetValue(viewRelation);
+                var propertyOfTheRelation = typeof(Relation).GetProperty(property.Name);
+                propertyOfTheRelation.SetValue(relation, changedValue);
             }
-            else
-            {
-                return View();
-            }
+
+            _relationService.Update(relation);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Edit(Guid id)
+        {
+            var domainRelation = _relationService.GetById(id);
+            var relationToEdit = _mapper.Map<EditRelationViewModel>(domainRelation);
+            return View(relationToEdit);
+        }
+
+        public IActionResult Delete(Guid id)
+        {
+            _relationService.Delete(id);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

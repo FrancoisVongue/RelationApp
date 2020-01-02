@@ -48,6 +48,9 @@ namespace RelationApp.Client
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Relation}/{action=Index}/{sortfield?}");
+                endpoints.MapControllerRoute(
+                    name: "edit",
+                    pattern: "{controller=Relation}/Edit/{id?}"); 
             });
         }
     }

@@ -8,46 +8,45 @@ namespace RelationApp.Profiles
 {
     public class RelationProfile : Profile
     {
-        public RelationProfile(RelationService service)
+        public RelationProfile()
         {
             CreateMap<Relation, RelationViewModel>();
+
             CreateMap<CreateRelationViewModel, Relation>()
                 .ConvertUsing(src => new Relation()
                 {
-                    IsDisabled = false,
-
-                    // TODO : delete this comment Id = Guid.NewGuid(),
-                    
                     Name = src.Name,
-
                     FullName = src.FullName,
-
                     TelephoneNumber = src.TelephoneNumber,
-
                     EmailAddress = src.EmailAddress,
-
                     DefaultCountry = src.DefaultCountry,
-
                     DefaultCity = src.DefaultCity,
-
                     DefaultStreet = src.DefaultStreet,
-
                     DefaultPostalCode = src.DefaultPostalCode,
-                    
+                    IsDisabled = false,
                     CreatedAt = DateTime.Now,
-                    
                     IsTemporary = false,
-                    
                     IsMe = false,
-                    
                     PaymentViaAutomaticDebit = false,
-                    
                     InvoiceDateGenerationOptions = 0,
-                    
                     InvoiceGroupByOptions = 0,
-                    
                     CreatedBy = "User",
         
+                });
+
+            CreateMap<Relation, EditRelationViewModel>()
+                .ConvertUsing(src => new EditRelationViewModel()
+                {
+                    Id = src.Id,
+                    Name = src.Name,
+                    FullName = src.FullName,
+                    TelephoneNumber = src.TelephoneNumber,
+                    EmailAddress = src.EmailAddress,
+                    DefaultCountry = src.DefaultCountry,
+                    DefaultCity = src.DefaultCity,
+                    DefaultStreet = src.DefaultStreet,
+                    DefaultPostalCode = src.DefaultPostalCode,
+
                 });
         }
 

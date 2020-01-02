@@ -35,27 +35,27 @@ namespace RelationApp.Services
             return relations.OrderBy(relation => (string)propertyOfChoice.GetValue(relation));
         }
 
-        public IEnumerable<Relation> Choose(Func<Relation, bool> predicate)
+        public IEnumerable<Relation> GetByCategory(string category) 
+        {
+            return _repository.GetByCategory(category);
+        }
+
+        public IEnumerable<Relation> GetFiltered(Func<Relation, bool> predicate)
         {
             return _repository.GetFiltered(predicate);
         }
 
-        public Relation GetOne(Guid relationId)
-        {
-            validateId(relationId);
-            return Choose(relation => relation.Id == relationId).First();
-        }
 
         public void Add(Relation relation)
         {
             _repository.Add(relation);
         }
 
-        public void Remove(Guid relationId)
+        public void Delete(Guid relationId)
         {
             validateId(relationId);
-            var relation = _repository.GetOne(relationId);
-            _repository.Remove(relation);
+            var relation = _repository.GetById(relationId);
+            _repository.Delete(relation);
         }
 
         public void Update(Relation relation)
@@ -63,12 +63,16 @@ namespace RelationApp.Services
             validateId(relation.Id);
             _repository.Update(relation);
         }
+        public Relation GetById(Guid relationId)
+        {
+            return _repository.GetById(relationId);
+        }
 
         private void validateId(Guid id)
         {
-            if (!_repository.Exists(id))
+            if (_repository.GetById(id) == null)
             {
-                throw new KeyNotFoundException("relation not found");
+                throw new KeyNotFoundException($"relation not found, id : {id}");
             }
         }
     }

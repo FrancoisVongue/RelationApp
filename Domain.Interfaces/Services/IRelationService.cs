@@ -8,13 +8,17 @@ namespace RelationApp.Domain.Iterfaces
     {        
         public IEnumerable<Relation> GetAll();
 
+        public Relation GetById(Guid relationId);
+
         public IEnumerable<Relation> GetOrdered(string property);
 
-        public IEnumerable<Relation> Choose(Func<Relation, bool> predicate);
+        public IEnumerable<Relation> GetByCategory(string category);
+
+        public IEnumerable<Relation> GetFiltered(Func<Relation, bool> predicate);
 
         public void Add(Relation relation);
 
-        public void Remove(Guid relationId);
+        public void Delete(Guid relationId);
 
         public void Update(Relation relation);
     }

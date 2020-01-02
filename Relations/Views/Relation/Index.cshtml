@@ -1,0 +1,45 @@
+﻿@model IEnumerable<RelationViewModel>
+    <a asp-action="Create" class="btn btn-primary">Add NEW!!!</a>
+    <!--<div>
+        Get by category: 
+        <form asp-action=""="/" method="post">
+            <select>
+                <option value="value">text</option>
+            </select>
+        </form>
+    </div>-->
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th><a asp-route-sortfield="Name">Name</a></th>
+                <th><a asp-route-sortfield="FullName">FullName</a></th>
+                <th><a asp-route-sortfield="TelephoneNumber">TelephoneNumber</a></th>
+                <th><a asp-route-sortfield="EmailAddress">EmailAddress</a></th>
+                <th><a asp-route-sortfield="DefaultCountry">DefaultCountry</a></th>
+                <th><a asp-route-sortfield="DefaultCity">DefaultCity</a></th>
+                <th><a asp-route-sortfield="DefaultStreet">DefaultStreet</a></th>
+                <th><a asp-route-sortfield="DefaultPostalCode">DefaultPostalCode</a></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (RelationViewModel relation in Model)
+            {
+            <tr>
+                <td>@relation.Name</td>
+                <td>@relation.FullName</td>
+                <td>@relation.TelephoneNumber</td>
+                <td>@relation.EmailAddress</td>
+                <td>@relation.DefaultCountry</td>
+                <td>@relation.DefaultCity</td>
+                <td>@relation.DefaultStreet</td>
+                <td>@relation.DefaultPostalCode</td>
+                <td><a class="btn btn-secondary" asp-action="Edit" asp-route-id="@relation.Id">Edit</a></td>
+                <td><a class="btn btn-danger" asp-action="Delete" asp-route-id="@relation.Id">Delete</a></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+

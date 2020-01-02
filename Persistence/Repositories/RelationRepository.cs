@@ -30,7 +30,19 @@ namespace RelationApp.Persistence.Repositories
             return _relations.Where(predicate);
         }
 
-        public Relation GetOne(Guid id)
+        public IEnumerable<Relation> GetByCategory(string categoryName)
+        {
+            Category category = _context.Set<Category>()
+                .Where(cat => cat.Name == categoryName).FirstOrDefault();
+            var relationsCategory = _context.Set<RelationCategory>()
+                .Where(rc => rc.CategoryId == category.Id);
+            return _relations
+                .Where(relation => relationsCategory
+                .Select(rc => rc.RelationId)
+                .Contains(relation.Id));
+        }
+
+        public Relation GetById(Guid id)
         {
             return _context.Find<Relation>(id);
         }
@@ -41,7 +53,7 @@ namespace RelationApp.Persistence.Repositories
             save();
         }
 
-        public void Remove(Relation t)
+        public void Delete(Relation t)
         { 
             _context.Remove(t);
             save();
