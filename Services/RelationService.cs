@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using RelationApp.Domain.Iterfaces;
 using RelationApp.Domain.Models;
 
@@ -35,16 +36,15 @@ namespace RelationApp.Services
             return relations.OrderBy(relation => (string)propertyOfChoice.GetValue(relation));
         }
 
-        public IEnumerable<Relation> GetByCategory(string category) 
+        public IEnumerable<Relation> GetByCategory(string categoryName) 
         {
-            return _repository.GetByCategory(category);
+            return _repository.GetByCategory(categoryName);
         }
 
-        public IEnumerable<Relation> GetFiltered(Func<Relation, bool> predicate)
+        public IEnumerable<Relation> GetFiltered(Expression<Func<Relation, bool>> expression)
         {
-            return _repository.GetFiltered(predicate);
+            return _repository.GetFiltered(expression.Compile());
         }
-
 
         public void Add(Relation relation)
         {
@@ -58,9 +58,17 @@ namespace RelationApp.Services
             _repository.Delete(relation);
         }
 
-        public void Update(Relation relation)
+        public void Update(Relation changedRelation)
         {
-            validateId(relation.Id);
+            var relation = GetById(changedRelation.Id);
+            relation.Name = changedRelation.Name;
+            relation.FullName = changedRelation.FullName;
+            relation.TelephoneNumber = changedRelation.TelephoneNumber;
+            relation.EmailAddress = changedRelation.EmailAddress;
+            relation.DefaultCountry = changedRelation.DefaultCountry;
+            relation.DefaultCity = changedRelation.DefaultCity;
+            relation.DefaultStreet = changedRelation.DefaultStreet;
+            relation.DefaultPostalCode = changedRelation.DefaultPostalCode;
             _repository.Update(relation);
         }
         public Relation GetById(Guid relationId)

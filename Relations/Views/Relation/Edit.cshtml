@@ -1,8 +1,8 @@
-﻿@model EditRelationViewModel
+﻿@model RelationViewModel
     <form asp-controller="Relation" asp-action="Edit" method="post">
         <div class="form-group">    
             <label asp-for="Id"></label>
-            <input class="form-control" type="text" value="@Model.Id" disabled/>
+            <input class="form-control" type="text" value="@Model.Id" asp-for="Id"/>
             <label asp-for="Name"></label>
             <input class="form-control" type="text" value="@Model.Name" asp-for="Name" />
             <label asp-for="FullName"></label>

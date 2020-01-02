@@ -3,10 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using RelationApp.Domain.Iterfaces;
 using RelationApp.Domain.Models;
 using System.Net.Http;
-using System.Linq;
 using RelationApp.Models;
 using System;
-using System.Reflection;
 using System.Collections.Generic;
 
 namespace RelationApp.Client.Controllers
@@ -25,13 +23,16 @@ namespace RelationApp.Client.Controllers
 
         public IActionResult Index(string sortfield)
         {
+            IEnumerable<Relation> relations;
             if (sortfield != null)
             {
-                var _relations = _relationService.GetOrdered(sortfield);
-                return View(_mapper.Map<IEnumerable<RelationViewModel>>(_relations));
+                relations = _relationService.GetOrdered(sortfield);
+            }
+            else
+            {
+                relations = _relationService.GetAll();  
             }
 
-            var relations = _relationService.GetAll();
             return View(_mapper.Map<IEnumerable<RelationViewModel>>(relations));
         }
 
@@ -41,34 +42,21 @@ namespace RelationApp.Client.Controllers
             {
                 return View();
             }
-
-            var relation = _mapper.Map<Relation>(viewRelation);
-            _relationService.Add(relation);
+            _relationService.Add(_mapper.Map<Relation>(viewRelation));
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        public IActionResult Edit(EditRelationViewModel viewRelation)
+        public IActionResult Edit(RelationViewModel viewRelation)
         {
-            Console.WriteLine(viewRelation.Id);
-            var relation = _relationService.GetById(viewRelation.Id);
-            var changedProperties = typeof(EditRelationViewModel).GetProperties();
-            foreach (var property in changedProperties)
-            {
-                var changedValue = property.GetValue(viewRelation);
-                var propertyOfTheRelation = typeof(Relation).GetProperty(property.Name);
-                propertyOfTheRelation.SetValue(relation, changedValue);
-            }
-
-            _relationService.Update(relation);
-
+            _relationService.Update(_mapper.Map<Relation>(viewRelation));
             return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Edit(Guid id)
         {
             var domainRelation = _relationService.GetById(id);
-            var relationToEdit = _mapper.Map<EditRelationViewModel>(domainRelation);
+            var relationToEdit = _mapper.Map<RelationViewModel>(domainRelation);
             return View(relationToEdit);
         }
 

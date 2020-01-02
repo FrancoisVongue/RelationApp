@@ -34,10 +34,11 @@ namespace RelationApp.Profiles
         
                 });
 
-            CreateMap<Relation, EditRelationViewModel>()
-                .ConvertUsing(src => new EditRelationViewModel()
+            CreateMap<RelationViewModel, Relation>()
+                .ConvertUsing(src => new Relation()
                 {
                     Id = src.Id,
+                    IsDisabled = src.IsDisabled,
                     Name = src.Name,
                     FullName = src.FullName,
                     TelephoneNumber = src.TelephoneNumber,
@@ -46,7 +47,6 @@ namespace RelationApp.Profiles
                     DefaultCity = src.DefaultCity,
                     DefaultStreet = src.DefaultStreet,
                     DefaultPostalCode = src.DefaultPostalCode,
-
                 });
         }
 

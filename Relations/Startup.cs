@@ -42,7 +42,6 @@ namespace RelationApp.Client
             app.UseStaticFiles();
 
             app.UseRouting();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -50,7 +49,7 @@ namespace RelationApp.Client
                     pattern: "{controller=Relation}/{action=Index}/{sortfield?}");
                 endpoints.MapControllerRoute(
                     name: "edit",
-                    pattern: "{controller=Relation}/Edit/{id?}"); 
+                    pattern: "Relation/Edit/{id?}"); 
             });
         }
     }
