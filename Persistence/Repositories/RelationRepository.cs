@@ -47,21 +47,24 @@ namespace RelationApp.Persistence.Repositories
             return _context.Find<Relation>(id);
         }
 
-        public void Add(Relation t)
-        { 
-            _context.Add(t);
+        public void Add(Relation relation)
+        {
+            SetDefaultValues(relation);
+            _context.Add(relation);    
             save();
         }
 
-        public void Delete(Relation t)
+        public void Delete(Relation relation)
         { 
-            _context.Remove(t);
+            _context.Remove(relation);
             save();
         }
 
-        public void Update(Relation t)
-        { 
-            _context.Update(t);
+        public void Update(Relation updatedRelation)
+        {
+            var existingRelation = GetById(updatedRelation.Id);
+            SetNewValues(updatedRelation, existingRelation);
+            _context.Update(existingRelation);
             save();
         }
 
@@ -74,6 +77,30 @@ namespace RelationApp.Persistence.Repositories
         private void save()
         { 
             _context.SaveChanges();
+        }
+
+        private void SetDefaultValues(Relation r)
+        {
+            r.IsDisabled = false;
+            r.CreatedAt = DateTime.Now;
+            r.IsTemporary = false;
+            r.IsMe = false;
+            r.PaymentViaAutomaticDebit = false;
+            r.InvoiceDateGenerationOptions = 0;
+            r.InvoiceGroupByOptions = 0;
+            r.CreatedBy = "User";
+        }
+
+        private void SetNewValues(Relation src, Relation dest) 
+        {
+            dest.Name = src.Name;
+            dest.FullName = src.FullName;
+            dest.TelephoneNumber = src.TelephoneNumber;
+            dest.EmailAddress = src.EmailAddress;
+            dest.DefaultCountry = src.DefaultCountry;
+            dest.DefaultCity = src.DefaultCity;
+            dest.DefaultStreet = src.DefaultStreet;
+            dest.DefaultPostalCode = src.DefaultPostalCode;
         }
     }
 }

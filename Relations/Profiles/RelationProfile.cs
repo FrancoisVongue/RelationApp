@@ -10,35 +10,14 @@ namespace RelationApp.Profiles
     {
         public RelationProfile()
         {
-            CreateMap<Relation, RelationViewModel>();
+            CreateMap<Relation, DisplayRelationViewModel>();
 
-            CreateMap<CreateRelationViewModel, Relation>()
-                .ConvertUsing(src => new Relation()
-                {
-                    Name = src.Name,
-                    FullName = src.FullName,
-                    TelephoneNumber = src.TelephoneNumber,
-                    EmailAddress = src.EmailAddress,
-                    DefaultCountry = src.DefaultCountry,
-                    DefaultCity = src.DefaultCity,
-                    DefaultStreet = src.DefaultStreet,
-                    DefaultPostalCode = src.DefaultPostalCode,
-                    IsDisabled = false,
-                    CreatedAt = DateTime.Now,
-                    IsTemporary = false,
-                    IsMe = false,
-                    PaymentViaAutomaticDebit = false,
-                    InvoiceDateGenerationOptions = 0,
-                    InvoiceGroupByOptions = 0,
-                    CreatedBy = "User",
-        
-                });
+            CreateMap<Relation, CreateUpdateRelationViewModel>();
 
-            CreateMap<RelationViewModel, Relation>()
+            CreateMap<CreateUpdateRelationViewModel, Relation>()
                 .ConvertUsing(src => new Relation()
                 {
                     Id = src.Id,
-                    IsDisabled = src.IsDisabled,
                     Name = src.Name,
                     FullName = src.FullName,
                     TelephoneNumber = src.TelephoneNumber,

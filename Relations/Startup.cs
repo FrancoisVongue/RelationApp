@@ -46,10 +46,10 @@ namespace RelationApp.Client
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Relation}/{action=Index}/{sortfield?}");
+                    pattern: "{controller=Relation}/{action=Index}/{sortfield=Name}");
                 endpoints.MapControllerRoute(
-                    name: "edit",
-                    pattern: "Relation/Edit/{id?}"); 
+                    name: "default",
+                    pattern: "{controller=Relation}/{action=Index}/{id?}");
             });
         }
     }

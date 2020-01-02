@@ -53,35 +53,27 @@ namespace RelationApp.Services
 
         public void Delete(Guid relationId)
         {
-            validateId(relationId);
-            var relation = _repository.GetById(relationId);
+            var relation = GetById(relationId);
+
             _repository.Delete(relation);
         }
 
         public void Update(Relation changedRelation)
         {
-            var relation = GetById(changedRelation.Id);
-            relation.Name = changedRelation.Name;
-            relation.FullName = changedRelation.FullName;
-            relation.TelephoneNumber = changedRelation.TelephoneNumber;
-            relation.EmailAddress = changedRelation.EmailAddress;
-            relation.DefaultCountry = changedRelation.DefaultCountry;
-            relation.DefaultCity = changedRelation.DefaultCity;
-            relation.DefaultStreet = changedRelation.DefaultStreet;
-            relation.DefaultPostalCode = changedRelation.DefaultPostalCode;
-            _repository.Update(relation);
+            GetById(changedRelation.Id);
+
+            _repository.Update(changedRelation);
         }
         public Relation GetById(Guid relationId)
         {
-            return _repository.GetById(relationId);
-        }
+            var relation = _repository.GetById(relationId);
 
-        private void validateId(Guid id)
-        {
-            if (_repository.GetById(id) == null)
+            if (relation == null)
             {
-                throw new KeyNotFoundException($"relation not found, id : {id}");
+                throw new KeyNotFoundException($"Relation with id '{relationId}' is not found.");
             }
+
+            return relation;
         }
     }
 }

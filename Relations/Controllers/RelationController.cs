@@ -23,40 +23,37 @@ namespace RelationApp.Client.Controllers
 
         public IActionResult Index(string sortfield)
         {
-            IEnumerable<Relation> relations;
-            if (sortfield != null)
-            {
-                relations = _relationService.GetOrdered(sortfield);
-            }
-            else
-            {
-                relations = _relationService.GetAll();  
-            }
+            var relations = (string.IsNullOrEmpty(sortfield)) ?
+                _relationService.GetAll() :
+                _relationService.GetOrdered(sortfield);
 
-            return View(_mapper.Map<IEnumerable<RelationViewModel>>(relations));
+            var relationsToDisplay = _mapper.Map<IEnumerable<DisplayRelationViewModel>>(relations);
+            return View(relationsToDisplay);
         }
 
-        public IActionResult Create(CreateRelationViewModel viewRelation)
+        public IActionResult Create(CreateUpdateRelationViewModel viewRelation)
         {
             if (HttpContext.Request.Method == HttpMethod.Get.Method)
             {
                 return View();
             }
-            _relationService.Add(_mapper.Map<Relation>(viewRelation));
+            var relation = _mapper.Map<Relation>(viewRelation);
+            _relationService.Add(relation);
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        public IActionResult Edit(RelationViewModel viewRelation)
+        public IActionResult Edit(CreateUpdateRelationViewModel viewRelation)
         {
-            _relationService.Update(_mapper.Map<Relation>(viewRelation));
+            var relation = _mapper.Map<Relation>(viewRelation);
+            _relationService.Update(relation);
             return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Edit(Guid id)
         {
             var domainRelation = _relationService.GetById(id);
-            var relationToEdit = _mapper.Map<RelationViewModel>(domainRelation);
+            var relationToEdit = _mapper.Map<CreateUpdateRelationViewModel>(domainRelation);
             return View(relationToEdit);
         }
 

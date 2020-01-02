@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RelationViewModel>
+﻿@model IEnumerable<DisplayRelationViewModel>
     <a asp-action="Create" class="btn btn-primary">Add NEW!!!</a>
     <!--<div>
         Get by category: 
@@ -24,7 +24,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (RelationViewModel relation in Model)
+            @foreach (DisplayRelationViewModel relation in Model)
             {
             <tr>
                 <td>@relation.Name</td>

@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using RelationApp.Domain.Models;
+using System;
 using System.Collections.Generic;
 
 namespace RelationApp.Models
 {
-    public class CreateRelationViewModel
+    public class CreateUpdateRelationViewModel
     {
+        public Guid Id { get; set; }
+
         public string Name { get; set; }
 
         public string FullName { get; set; }
