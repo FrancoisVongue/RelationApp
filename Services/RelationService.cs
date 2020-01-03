@@ -94,34 +94,42 @@ namespace RelationApp.Services
             if (string.IsNullOrEmpty(postalCode))
                 return null;
 
-            var currentPostalCharacterIndex = 0;
             var result = new StringBuilder();
 
-            foreach (var symbol in postalCodeFormat)
+            for(int formatCursor = 0, codeCursor = 0;
+                formatCursor < postalCodeFormat.Length && codeCursor < postalCode.Length;
+                formatCursor++, codeCursor++)
             {
-                var currentPostalCharacter = postalCode[currentPostalCharacterIndex];
+                var formatSymbol = postalCodeFormat[formatCursor];
+                var currentPostalCharacter = postalCode[codeCursor];
 
-                if (symbol == 'N' && char.IsDigit(currentPostalCharacter))
+                if (formatSymbol == 'N' && char.IsDigit(currentPostalCharacter))
                 {
                     result.Append(currentPostalCharacter);
                 }
-                else if (symbol == 'l' && char.IsLetter(currentPostalCharacter))
+                else if (formatSymbol == 'N' && char.IsLetter(currentPostalCharacter))
+                {
+                    formatCursor--;
+                }
+                else if (formatSymbol == 'l' && char.IsLetter(currentPostalCharacter))
                 {
                     result.Append(char.ToLower(currentPostalCharacter));
                 }
-                else if (symbol == 'L' && char.IsLetter(currentPostalCharacter))
+                else if (formatSymbol == 'L' && char.IsLetter(currentPostalCharacter))
                 {
                     result.Append(char.ToUpper(currentPostalCharacter));
                 }
-                else if (char.IsPunctuation(symbol))
+                else if (char.IsPunctuation(formatSymbol))
                 {
-                    result.Append(symbol);
-                    //currentPostalCharacterIndex--;
+                    result.Append(formatSymbol);
+                    codeCursor--;
+                }
+                else if (char.IsLetter(formatSymbol) && char.IsDigit(currentPostalCharacter))
+                {
+                    formatCursor--;
                 }
                 else
                     return postalCode;
-
-                currentPostalCharacterIndex++;
             }
 
             return result.ToString();

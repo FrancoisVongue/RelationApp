@@ -41,5 +41,14 @@ namespace RelationApp.Tests
             //assert
             Assert.Equal(expected, result);
         }
+
+       /* [Fact]
+        public void ProperlyValidates()
+        {
+            //act
+            string result = RelationService.ValidateAgainstFormat("LL", "f1a");
+            //assert
+            Assert.Equal("FA", result);
+        }*/
     }
 }
