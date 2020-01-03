@@ -6,12 +6,14 @@ using System.Linq.Expressions;
 namespace RelationApp.Domain.Iterfaces
 {
     public interface IRelationService
-    {        
+    {
+        public IEnumerable<Category> GetCategories();
+
         public IEnumerable<Relation> GetAll();
 
         public Relation GetById(Guid relationId);
 
-        public IEnumerable<Relation> GetOrdered(string property);
+        public IEnumerable<Relation> OrderByProperty(string property, IEnumerable<Relation> relations);
 
         public IEnumerable<Relation> GetByCategory(string category);
 

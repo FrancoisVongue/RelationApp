@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace RelationApp.Persistence.Repositories
 {
-    public class RelationRepository : IRepository<Relation>
+    public class RelationRepository : IRepository
     {
         private DbContext _context;
 
@@ -20,26 +20,45 @@ namespace RelationApp.Persistence.Repositories
             _relations = context.Set<Relation>();
         }
 
+        public IEnumerable<Category> GetCategories()
+        {
+            return _context.Set<Category>().ToArray();
+        }
+
         public IEnumerable<Relation> GetAll()
         {
-            return _relations;
+            return _relations.Where(relation => !relation.IsDisabled).ToList();
         }
 
         public IEnumerable<Relation> GetFiltered(Func<Relation, bool> predicate)
         {
-            return _relations.Where(predicate);
+            return GetAll().Where(predicate);
         }
 
         public IEnumerable<Relation> GetByCategory(string categoryName)
         {
             Category category = _context.Set<Category>()
-                .Where(cat => cat.Name == categoryName).FirstOrDefault();
-            var relationsCategory = _context.Set<RelationCategory>()
-                .Where(rc => rc.CategoryId == category.Id);
-            return _relations
-                .Where(relation => relationsCategory
-                .Select(rc => rc.RelationId)
-                .Contains(relation.Id));
+                .First(cat => cat.Name == categoryName);
+
+            if (category == null)
+                throw new KeyNotFoundException("There is no such a category!");
+
+            var relationsIds = _context.Set<RelationCategory>()
+                .Where(rc => rc.CategoryId == category.Id)
+                .Select(rc => rc.RelationId).ToList();
+
+            var relations = GetAll().Where(relation =>
+                relationsIds.Contains(relation.Id))
+                .ToList();
+
+            return relations;
+        }
+
+        public string GetPostalCodeFormat(string countryName)
+        {
+            var countries = _context.Set<Country>();
+            var country = countries.First(country => country.Name == countryName);
+            return country.PostalCodeFormat;
         }
 
         public Relation GetById(Guid id)
@@ -55,8 +74,8 @@ namespace RelationApp.Persistence.Repositories
         }
 
         public void Delete(Relation relation)
-        { 
-            _context.Remove(relation);
+        {
+            relation.IsDisabled = true;
             save();
         }
 

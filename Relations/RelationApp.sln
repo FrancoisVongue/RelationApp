@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RelationApp", "RelationApp.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Models", "..\Domain.Models\Domain.Models.csproj", "{1ECFFDB6-4022-46FA-AE0C-75BD10BB0E1B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RelationApp.Tests", "..\RelationApp.Tests\RelationApp.Tests.csproj", "{468E2B0D-B27C-4EBE-923D-8D99359B3446}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{1ECFFDB6-4022-46FA-AE0C-75BD10BB0E1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1ECFFDB6-4022-46FA-AE0C-75BD10BB0E1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1ECFFDB6-4022-46FA-AE0C-75BD10BB0E1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{468E2B0D-B27C-4EBE-923D-8D99359B3446}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{468E2B0D-B27C-4EBE-923D-8D99359B3446}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{468E2B0D-B27C-4EBE-923D-8D99359B3446}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{468E2B0D-B27C-4EBE-923D-8D99359B3446}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -57,6 +63,7 @@ Global
 		{AE91EE97-263A-4466-B320-524DB705D04D} = {A7146B28-09B0-418A-9E8A-C1E28366F701}
 		{3FB8B0BE-4DAE-4200-BDB7-E1D8B8C07421} = {DE7FFCAD-AB3A-4BDB-B12A-56EEA62E9341}
 		{1ECFFDB6-4022-46FA-AE0C-75BD10BB0E1B} = {5C6CE5AF-1D6C-4796-9CE9-3FD8A298B1C9}
+		{468E2B0D-B27C-4EBE-923D-8D99359B3446} = {DE7FFCAD-AB3A-4BDB-B12A-56EEA62E9341}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {083BED91-AD46-419B-97D6-DA73E55FBDC1}

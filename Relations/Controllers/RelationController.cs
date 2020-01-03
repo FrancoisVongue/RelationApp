@@ -6,6 +6,7 @@ using System.Net.Http;
 using RelationApp.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RelationApp.Client.Controllers
 {
@@ -21,14 +22,19 @@ namespace RelationApp.Client.Controllers
             _mapper = mapper;
         }
 
-        public IActionResult Index(string sortfield)
+        public IActionResult Index(string sortfield, string category)
         {
-            var relations = (string.IsNullOrEmpty(sortfield)) ?
-                _relationService.GetAll() :
-                _relationService.GetOrdered(sortfield);
+            ViewBag.Categories = _relationService.GetCategories();
 
-            var relationsToDisplay = _mapper.Map<IEnumerable<DisplayRelationViewModel>>(relations);
-            return View(relationsToDisplay);
+            var relations = string.IsNullOrEmpty(category) ?
+                _relationService.GetAll():
+                _relationService.GetByCategory(category);
+
+            if (string.IsNullOrEmpty(sortfield))
+                _relationService.OrderByProperty(sortfield, relations);
+
+            var viewRelations = _mapper.Map<IEnumerable<DisplayRelationViewModel>>(relations);
+            return View(viewRelations);
         }
 
         public IActionResult Create(CreateUpdateRelationViewModel viewRelation)
@@ -37,9 +43,13 @@ namespace RelationApp.Client.Controllers
             {
                 return View();
             }
-            var relation = _mapper.Map<Relation>(viewRelation);
-            _relationService.Add(relation);
-            return RedirectToAction(nameof(Index));
+            else if (ModelState.IsValid)
+            {
+                var relation = _mapper.Map<Relation>(viewRelation);
+                _relationService.Add(relation);
+                return RedirectToAction(nameof(Index));
+            }
+            else return View(viewRelation);
         }
 
         [HttpPost]

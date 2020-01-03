@@ -4,21 +4,25 @@ using RelationApp.Domain.Models;
 
 namespace RelationApp.Domain.Iterfaces
 {
-    public interface IRepository<TEntity>
+    public interface IRepository
     {
-        IEnumerable<TEntity> GetAll();
+        IEnumerable<Category> GetCategories();
 
-        IEnumerable<TEntity> GetFiltered(Func<TEntity, bool> predicate);
+        IEnumerable<Relation> GetAll();
 
-        IEnumerable<TEntity> GetByCategory(string categoryName);
+        IEnumerable<Relation> GetFiltered(Func<Relation, bool> predicate);
 
-        TEntity GetById(Guid id);
+        IEnumerable<Relation> GetByCategory(string categoryName);
 
-        void Add(TEntity t);
+        string GetPostalCodeFormat(string country);
 
-        void Delete(TEntity t);
+        Relation GetById(Guid id);
 
-        void Update(TEntity t);
+        void Add(Relation t);
+
+        void Delete(Relation t);
+
+        void Update(Relation t);
 
         bool Exists(Guid id);
     }

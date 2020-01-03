@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relations</title>
+  <link rel="stylesheet" href="../lib/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="index.css"/>
+</head>
+<body>
+<div class="container">
+  <div class="index-page">
+    <h1 class="index-page__header">Relation Grid</h1>
+      
+    <div class="navbar">
+        <div class="category-dropdown">
+          <button class=" button category-dropdown__button">
+              Filter Categories
+          </button>
+          <div class="category-dropdown__menu">
+            <a class="category-dropdown__item" asp-route-category="@category.Name">@category.Name</a>
+            <a class="category-dropdown__item" asp-route-category="@category.Name">@category.Name</a>
+          </div>
+        </div>
+        <a href="#" class="button button_add">Add NEW</a>
+      </div>
+
+      <table class="relation-table">
+              <tr>
+                  <th><a href="#">Name</a></th>
+                  <th><a href="#">FullName</a></th>
+                  <th><a href="#">TelephoneNumber</a></th>
+                  <th><a href="#">EmailAddress</a></th>
+                  <th><a href="#">DefaultCountry</a></th>
+                  <th><a href="#">DefaultCity</a></th>
+                  <th><a href="#">DefaultStreet</a></th>
+                  <th><a href="#">DefaultPostalCode</a></th>
+                  <th></th>
+                  <th></th>
+              </tr>
+            <tr>
+                <td>Name</td>
+                <td>FullName</td>
+                <td>TelephoneNumber</td>
+                <td>EmailAddress</td>
+                <td>DefaultCountry</td>
+                <td>DefaultCity</td>
+                <td>DefaultStreet</td>
+                <td>DefaultPostalCode</td>
+                <td><a asp-action="Edit" asp-route-id="@relation.Id">Edit</a></td>
+                <td><a asp-action="Delete" asp-route-id="@relation.Id">Delete</a></td>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td>FullName</td>
+                <td>TelephoneNumber</td>
+                <td>EmailAddress</td>
+                <td>DefaultCountry</td>
+                <td>DefaultCity</td>
+                <td>DefaultStreet</td>
+                <td>DefaultPostalCode</td>
+                <td><a asp-action="Edit" asp-route-id="@relation.Id">Edit</a></td>
+                <td><a asp-action="Delete" asp-route-id="@relation.Id">Delete</a></td>
+            </tr>
+            <tr>
+              <td>Name</td>
+              <td>FullName</td>
+              <td>TelephoneNumber</td>
+              <td>EmailAddress</td>
+              <td>DefaultCountry</td>
+              <td>DefaultCity</td>
+              <td>DefaultStreet</td>
+              <td>DefaultPostalCode</td>
+              <td><a class="table-button table-button_edit" asp-action="Edit" asp-route-id="@relation.Id">Edit</a></td>
+              <td><a class="table-button table-button_delete" asp-action="Delete" asp-route-id="@relation.Id">Delete</a></td>
+          </tr>
+      </table>
+      
+      <div class="navbar pagination">
+        <a href="#" class="pagination__link">Previous</a>
+        <a href="#" class="pagination__link pagination__link_current">1</a>
+        <a href="#" class="pagination__link">Next</a>
+      </div>
+  </div>
+</div>
+<script src="../lib/jquery/dist/jquery.min.js"></script>
+<script src="../lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+<script src="../lib/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

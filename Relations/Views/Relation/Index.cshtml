@@ -1,45 +1,59 @@
 ﻿@model IEnumerable<DisplayRelationViewModel>
-    <a asp-action="Create" class="btn btn-primary">Add NEW!!!</a>
-    <!--<div>
-        Get by category: 
-        <form asp-action=""="/" method="post">
-            <select>
-                <option value="value">text</option>
-            </select>
-        </form>
-    </div>-->
-    <table class="table">
-        <thead class="thead-dark">
+    <div class="index-page">
+
+        <h1 class="index-page__header">Relation Grid</h1>
+
+        <div class="navbar">
+            <div class="category-dropdown">
+                <button class=" button category-dropdown__button">
+                    Filter Categories
+                </button>
+                <div class="category-dropdown__menu">
+                    @foreach (var category in ViewBag.Categories)
+                    {
+                        <a class="category-dropdown__item" asp-route-category="@category.Name">@category.Name</a>
+                    }
+                </div>
+            </div>
+            <a asp-action="Create" class="button button_add">Add NEW</a>
+        </div>
+
+        <table class="relation-table">
             <tr>
                 <th><a asp-route-sortfield="Name">Name</a></th>
-                <th><a asp-route-sortfield="FullName">FullName</a></th>
-                <th><a asp-route-sortfield="TelephoneNumber">TelephoneNumber</a></th>
-                <th><a asp-route-sortfield="EmailAddress">EmailAddress</a></th>
-                <th><a asp-route-sortfield="DefaultCountry">DefaultCountry</a></th>
-                <th><a asp-route-sortfield="DefaultCity">DefaultCity</a></th>
-                <th><a asp-route-sortfield="DefaultStreet">DefaultStreet</a></th>
-                <th><a asp-route-sortfield="DefaultPostalCode">DefaultPostalCode</a></th>
+                <th><a asp-route-sortfield="FullName">Full name</a></th>
+                <th><a asp-route-sortfield="TelephoneNumber">Telephone number</a></th>
+                <th><a asp-route-sortfield="EmailAddress">Email address</a></th>
+                <th><a asp-route-sortfield="DefaultCountry">Country</a></th>
+                <th><a asp-route-sortfield="DefaultCity">City</a></th>
+                <th><a asp-route-sortfield="DefaultStreet">Street</a></th>
+                <th><a asp-route-sortfield="DefaultPostalCode">Postal code</a></th>
                 <th></th>
                 <th></th>
             </tr>
-        </thead>
-        <tbody>
             @foreach (DisplayRelationViewModel relation in Model)
             {
-            <tr>
-                <td>@relation.Name</td>
-                <td>@relation.FullName</td>
-                <td>@relation.TelephoneNumber</td>
-                <td>@relation.EmailAddress</td>
-                <td>@relation.DefaultCountry</td>
-                <td>@relation.DefaultCity</td>
-                <td>@relation.DefaultStreet</td>
-                <td>@relation.DefaultPostalCode</td>
-                <td><a class="btn btn-secondary" asp-action="Edit" asp-route-id="@relation.Id">Edit</a></td>
-                <td><a class="btn btn-danger" asp-action="Delete" asp-route-id="@relation.Id">Delete</a></td>
-            </tr>
+                <tr>
+                    <td>@relation.Name</td>
+                    <td>@relation.FullName</td>
+                    <td>@relation.TelephoneNumber</td>
+                    <td>@relation.EmailAddress</td>
+                    <td>@relation.DefaultCountry</td>
+                    <td>@relation.DefaultCity</td>
+                    <td>@relation.DefaultStreet</td>
+                    <td>@relation.DefaultPostalCode</td>
+                    <td><a class="table-button table-button_edit" asp-action="Edit" asp-route-id="@relation.Id">Edit</a></td>
+                    <td><a class="table-button table-button_delete" asp-action="Delete" asp-route-id="@relation.Id">Delete</a></td>
+                </tr>
             }
-        </tbody>
-    </table>
+        </table>
+
+        <div class="navbar pagination">
+            <a href="#" class="pagination__link">Previous</a>
+            <a href="#" class="pagination__link pagination__link_current">1</a>
+            <a href="#" class="pagination__link">Next</a>
+        </div>
+    </div>
+    
 
 
