@@ -1,17 +1,16 @@
-﻿@model IEnumerable<DisplayRelationViewModel>
+﻿@model TableInfo
+    <h1 class="index-page__header text-center">Table of Relations</h1>
     <div class="index-page">
-
-        <h1 class="index-page__header">Relation Grid</h1>
-
-        <div class="navbar">
+        <div class="action-bar">
             <div class="category-dropdown">
                 <button class=" button category-dropdown__button">
                     Filter Categories
                 </button>
                 <div class="category-dropdown__menu">
-                    @foreach (var category in ViewBag.Categories)
+                    <a class="category-dropdown__item" asp-action="Index">Show All</a>
+                    @foreach (var category in Model.Categories)
                     {
-                        <a class="category-dropdown__item" asp-route-category="@category.Name">@category.Name</a>
+                        <a class="category-dropdown__item" asp-route-category="@category">@category</a>
                     }
                 </div>
             </div>
@@ -31,7 +30,7 @@
                 <th></th>
                 <th></th>
             </tr>
-            @foreach (DisplayRelationViewModel relation in Model)
+            @foreach (DisplayRelationViewModel relation in Model.Relations)
             {
                 <tr>
                     <td>@relation.Name</td>
@@ -49,9 +48,18 @@
         </table>
 
         <div class="navbar pagination">
-            <a href="#" class="pagination__link">Previous</a>
-            <a href="#" class="pagination__link pagination__link_current">1</a>
-            <a href="#" class="pagination__link">Next</a>
+            @if (Model.CurrentPageNumber > 1)
+            {<a class="pagination__link" asp-route-page="@(Model.CurrentPageNumber - 1)">Previous</a>}
+
+            @for (int i = 1; i <= Model.AmountOfPages; i++)
+            { 
+                <a class="pagination__link 
+                   @(Model.CurrentPageNumber == i ? "pagination__link_current disabled btn" : "")"
+                   asp-route-page="@i">@i</a> 
+            }
+
+            @if (Model.CurrentPageNumber < Model.AmountOfPages)
+            { <a class="pagination__link" asp-route-page="@(Model.CurrentPageNumber + 1)">Next</a> }
         </div>
     </div>
     

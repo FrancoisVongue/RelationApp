@@ -1,53 +1,54 @@
 ﻿@model CreateUpdateRelationViewModel
+    <h1 class="index-page__header text-center">Create Relation</h1>
     <form asp-action="Create" method="post">
         <div class="form-group">
-
-            <div class="row">
-                <div class="col">
+            
+            <div class="row justify-content-center">
+                <div class="col-sm-4">
                     <label asp-for="Name"></label>
                     <input class="form-control" type="text" asp-for="Name" />
                     <span asp-validation-for="Name"></span>
                 </div>
-                <div class="col">
+                <div class="col-sm-4">
                     <label asp-for="FullName"></label>
                     <input class="form-control" type="text" asp-for="FullName" />
                     <span asp-validation-for="FullName"></span>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col">
+            <div class="row justify-content-center">
+                <div class="col-sm-4">
                     <label asp-for="TelephoneNumber"></label>
                     <input class="form-control" type="tel" asp-for="TelephoneNumber" />
                     <span asp-validation-for="TelephoneNumber"></span>
                 </div>
-                <div class="col">
+                <div class="col-sm-4">
                     <label asp-for="EmailAddress"></label>
                     <input class="form-control" type="email" asp-for="EmailAddress" />
                     <span asp-validation-for="EmailAddress"></span>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col">
+            <div class="row justify-content-center">
+                <div class="col-sm-4">
                     <label asp-for="DefaultCountry"></label>
                     <input class="form-control" type="text" asp-for="DefaultCountry" />
                     <span asp-validation-for="DefaultCountry"></span>
                 </div>
-                <div class="col">
+                <div class="col-sm-4">
                     <label asp-for="DefaultCity"></label>
                     <input class="form-control" type="text" asp-for="DefaultCity" />
                     <span asp-validation-for="DefaultCity"></span>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col">
+            <div class="row justify-content-center">
+                <div class="col-sm-4">
                     <label asp-for="DefaultStreet"></label>
                     <input class="form-control" type="tel" asp-for="DefaultStreet" />
                     <span asp-validation-for="DefaultStreet"></span>
                 </div>
-                <div class="col">
+                <div class="col-sm-4">
                     <label asp-for="DefaultPostalCode"></label>
                     <input class="form-control" type="text" asp-for="DefaultPostalCode" />
                     <span asp-validation-for="DefaultPostalCode"></span>
@@ -55,5 +56,9 @@
             </div>
 
         </div>
-        <button type="submit" class="btn btn-success">Add another one</button>
-    </form>
+        <div class="row justify-content-center">
+            <div class="col-sm-8">
+                <button type="submit" class="btn btn-success align-self-end">Create</button>
+            </div>
+        </div>
+</form>

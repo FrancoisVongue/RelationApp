@@ -13,6 +13,7 @@ namespace RelationApp.Client.Controllers
     public class RelationController : Controller
     {
         private readonly IRelationService _relationService;
+        private int rowsPerPage = 5;
 
         private readonly IMapper _mapper;
 
@@ -22,34 +23,38 @@ namespace RelationApp.Client.Controllers
             _mapper = mapper;
         }
 
-        public IActionResult Index(string sortfield, string category)
+        public IActionResult Index(string category, string sortfield, int page = 1)
         {
-            ViewBag.Categories = _relationService.GetCategories();
-
-            var relations = string.IsNullOrEmpty(category) ?
-                _relationService.GetAll():
-                _relationService.GetByCategory(category);
-
-            if (string.IsNullOrEmpty(sortfield))
-                _relationService.OrderByProperty(sortfield, relations);
-
+            var relations = _relationService.GetRelations(ref page, rowsPerPage, sortfield, category);
             var viewRelations = _mapper.Map<IEnumerable<DisplayRelationViewModel>>(relations);
-            return View(viewRelations);
+
+            var info = new TableInfo()
+            {
+                CurrentPageNumber = page,
+                AmountOfPages = _relationService.CountPages(rowsPerPage, category),
+                Categories = _relationService.GetCategories(),
+                Relations = viewRelations
+            };
+
+            return View(info);
         }
 
+        [HttpPost]
         public IActionResult Create(CreateUpdateRelationViewModel viewRelation)
         {
-            if (HttpContext.Request.Method == HttpMethod.Get.Method)
-            {
-                return View();
-            }
-            else if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var relation = _mapper.Map<Relation>(viewRelation);
                 _relationService.Add(relation);
                 return RedirectToAction(nameof(Index));
             }
-            else return View(viewRelation);
+            
+            return View(viewRelation);
+        }
+        
+        public IActionResult Create()
+        {
+            return View();
         }
 
         [HttpPost]
