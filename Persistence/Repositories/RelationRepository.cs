@@ -30,6 +30,15 @@ namespace RelationApp.Persistence.Repositories
             return _relations.Where(relation => !relation.IsDisabled).ToList();
         }
 
+        public int CountRelations(string category)
+        {
+            var relationsAmount = string.IsNullOrWhiteSpace(category) ?
+                _relations.Where(relation => !relation.IsDisabled).Count() :
+                GetByCategory(category).Count();
+
+            return relationsAmount;
+        }
+
         public IEnumerable<Relation> GetFiltered(Func<Relation, bool> predicate)
         {
             return GetAll().Where(predicate);
@@ -38,10 +47,10 @@ namespace RelationApp.Persistence.Repositories
         public IEnumerable<Relation> GetByCategory(string categoryName)
         {
             Category category = _context.Set<Category>()
-                .First(cat => cat.Name == categoryName);
+                .FirstOrDefault(cat => cat.Name == categoryName);
 
             if (category == null)
-                throw new KeyNotFoundException("There is no such a category!");
+                return GetAll();
 
             var relationsIds = _context.Set<RelationCategory>()
                 .Where(rc => rc.CategoryId == category.Id)
@@ -69,7 +78,7 @@ namespace RelationApp.Persistence.Repositories
         public void Add(Relation relation)
         {
             SetDefaultValues(relation);
-            _context.Add(relation);    
+            _context.Add(relation);
             save();
         }
 

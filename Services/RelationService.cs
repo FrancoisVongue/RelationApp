@@ -5,11 +5,13 @@ using System.Linq.Expressions;
 using System.Text;
 using RelationApp.Domain.Iterfaces;
 using RelationApp.Domain.Models;
+using System.Globalization;
 
 namespace RelationApp.Services
 {
     public class RelationService : IRelationService
     {
+        // todo : category filtration fix
         private IRepository _repository;
 
         public RelationService(IRepository repository)
@@ -17,9 +19,9 @@ namespace RelationApp.Services
             _repository = repository;
         }
 
-        public IEnumerable<Category> GetCategories()
+        public IEnumerable<string> GetCategories()
         {
-            return _repository.GetCategories();
+            return _repository.GetCategories().Select(c => c.Name).ToList();
         }
 
         public IEnumerable<Relation> GetAll()
@@ -27,12 +29,43 @@ namespace RelationApp.Services
             return _repository.GetAll();
         }
 
+        public IEnumerable<Relation> GetRelations(ref int page, int rowsPerPage, string sortfield, string category)
+        {
+            var amountOfPages = CountPages(rowsPerPage, category);
+
+            if (page > amountOfPages)
+                page = amountOfPages;
+            if (page < 1)
+                page = 1;
+
+            var relations = string.IsNullOrWhiteSpace(category) ?
+                _repository.GetAll() :
+                GetByCategory(category);
+
+            relations = OrderByProperty(sortfield, relations)
+                .Skip( (page - 1) * rowsPerPage )
+                .Take(rowsPerPage)
+                .ToList();
+            return relations;
+        }
+
+        public int CountPages(int rowsPerPage, string category)
+        {
+            if (rowsPerPage < 1) throw new DivideByZeroException("cant divide by zero");
+            var amountOfPages = (int)Math.Ceiling(_repository.CountRelations(category) / (float)rowsPerPage);
+            return amountOfPages < 1 ? 1 : amountOfPages;
+        }
+
         public IEnumerable<Relation> OrderByProperty(string property, IEnumerable<Relation> relations) 
         {
             var propertyOfChoice = typeof(Relation).GetProperty(property);
+
+            if (propertyOfChoice == null) 
+                propertyOfChoice = typeof(Relation).GetProperty(nameof(Relation.Name));
+
             var orderedRelations = relations
                 .OrderBy(relation => 
-                (string)propertyOfChoice.GetValue(relation));
+                (string)propertyOfChoice.GetValue(relation)).ToList();
 
             return orderedRelations;
         }
@@ -49,6 +82,9 @@ namespace RelationApp.Services
 
         public void Add(Relation relation)
         {
+            string validPostalCode = GetValidPostalCode(relation);
+            relation.DefaultPostalCode = validPostalCode;
+
             _repository.Add(relation);
         }
 
@@ -76,22 +112,24 @@ namespace RelationApp.Services
             return relation;
         }
 
-        public string GetValidPostalCode(string country, string postalCode)
+        public string GetValidPostalCode(Relation relation)
         {
-            var postalCodeFormat = _repository.GetPostalCodeFormat(country);
-
-            if (postalCodeFormat == null)
-                return postalCode;
-
-            return ValidateAgainstFormat(postalCodeFormat, postalCode);
+            var postalCodeFormat = _repository.GetPostalCodeFormat(relation.DefaultCountry);
+            string validCode = ValidateAgainstFormat(postalCodeFormat, relation.DefaultPostalCode);
+            Console.WriteLine("\n\n" +
+                $"Country : {relation.DefaultCountry}" +
+                $"Code : {relation.DefaultPostalCode}" +
+                $"Code Pattern : {postalCodeFormat}" +
+                $"result : {validCode}");
+            return validCode;
         }
 
         public static string ValidateAgainstFormat(string postalCodeFormat, string postalCode)
         {
-            if(string.IsNullOrEmpty(postalCodeFormat))
+            if(string.IsNullOrWhiteSpace(postalCodeFormat))
                 return postalCode;
 
-            if (string.IsNullOrEmpty(postalCode))
+            if (string.IsNullOrWhiteSpace(postalCode))
                 return null;
 
             var result = new StringBuilder();
@@ -102,34 +140,39 @@ namespace RelationApp.Services
             {
                 var formatSymbol = postalCodeFormat[formatCursor];
                 var currentPostalCharacter = postalCode[codeCursor];
+                try
+                {
+                    if (char.IsPunctuation(formatSymbol) || char.IsWhiteSpace(formatSymbol))
+                    {
+                        result.Append(formatSymbol);
+                        codeCursor--;
+                    }
+                    else if (formatSymbol == 'N')
+                    {
+                        if (char.GetUnicodeCategory(currentPostalCharacter) != UnicodeCategory.DecimalDigitNumber)
+                            throw new Exception("incompatible format");
 
-                if (formatSymbol == 'N' && char.IsDigit(currentPostalCharacter))
-                {
-                    result.Append(currentPostalCharacter);
+                        result.Append(currentPostalCharacter);
+                    }
+                    else if (formatSymbol == 'L')
+                    {
+                        if (char.GetUnicodeCategory(currentPostalCharacter) == UnicodeCategory.DecimalDigitNumber)
+                            throw new Exception("incompatible format");
+
+                        result.Append(char.ToUpper(currentPostalCharacter));
+                    }
+                    else if (formatSymbol == 'l')
+                    {
+                        if (char.GetUnicodeCategory(currentPostalCharacter) == UnicodeCategory.DecimalDigitNumber)
+                            throw new Exception("incompatible format");
+
+                        result.Append(char.ToLower(currentPostalCharacter));
+                    }
                 }
-                else if (formatSymbol == 'N' && char.IsLetter(currentPostalCharacter))
-                {
-                    formatCursor--;
-                }
-                else if (formatSymbol == 'l' && char.IsLetter(currentPostalCharacter))
-                {
-                    result.Append(char.ToLower(currentPostalCharacter));
-                }
-                else if (formatSymbol == 'L' && char.IsLetter(currentPostalCharacter))
-                {
-                    result.Append(char.ToUpper(currentPostalCharacter));
-                }
-                else if (char.IsPunctuation(formatSymbol))
-                {
-                    result.Append(formatSymbol);
-                    codeCursor--;
-                }
-                else if (char.IsLetter(formatSymbol) && char.IsDigit(currentPostalCharacter))
+                catch
                 {
                     formatCursor--;
                 }
-                else
-                    return postalCode;
             }
 
             return result.ToString();

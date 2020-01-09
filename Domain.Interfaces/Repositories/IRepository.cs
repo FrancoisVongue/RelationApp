@@ -10,6 +10,8 @@ namespace RelationApp.Domain.Iterfaces
 
         IEnumerable<Relation> GetAll();
 
+        int CountRelations(string category);
+
         IEnumerable<Relation> GetFiltered(Func<Relation, bool> predicate);
 
         IEnumerable<Relation> GetByCategory(string categoryName);

@@ -7,22 +7,26 @@ namespace RelationApp.Domain.Iterfaces
 {
     public interface IRelationService
     {
-        public IEnumerable<Category> GetCategories();
+        IEnumerable<string> GetCategories();
 
-        public IEnumerable<Relation> GetAll();
+        IEnumerable<Relation> GetAll();
 
-        public Relation GetById(Guid relationId);
+        IEnumerable<Relation> GetRelations(ref int page, int rowsPerPage, string sortfield, string category); 
 
-        public IEnumerable<Relation> OrderByProperty(string property, IEnumerable<Relation> relations);
+        int CountPages(int rowsPerPage, string category);
 
-        public IEnumerable<Relation> GetByCategory(string category);
+        Relation GetById(Guid relationId);
 
-        public IEnumerable<Relation> GetFiltered(Expression<Func<Relation, bool>> expression);
+        IEnumerable<Relation> OrderByProperty(string property, IEnumerable<Relation> relations);
 
-        public void Add(Relation relation);
+        IEnumerable<Relation> GetByCategory(string category);
 
-        public void Delete(Guid relationId);
+        IEnumerable<Relation> GetFiltered(Expression<Func<Relation, bool>> expression);
 
-        public void Update(Relation relation);
+        void Add(Relation relation);
+
+        void Delete(Guid relationId);
+
+        void Update(Relation relation);
     }
 }
