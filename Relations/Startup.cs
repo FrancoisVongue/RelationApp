@@ -30,7 +30,7 @@ namespace RelationApp.Client
             services.AddDbContext<RelationAppContext>(options => 
                 options.UseSqlServer( Configuration.GetConnectionString("RelationsDb") ));
            
-            services.AddScoped<IRepository<Relation>, RelationRepository>();
+            services.AddScoped<IRepository, RelationRepository>();
 
             services.AddScoped<IRelationService, RelationService>();
         }
@@ -42,12 +42,17 @@ namespace RelationApp.Client
             app.UseStaticFiles();
 
             app.UseRouting();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{sortfield?}");
+                    name: "default1",
+                    pattern: "{controller=Relation}/{action=Index}/{sortfield=Name}");
+                endpoints.MapControllerRoute(
+                    name: "default2",
+                    pattern: "{controller=Relation}/{action=Index}/{category?}");
+                endpoints.MapControllerRoute(
+                    name: "default3",
+                    pattern: "{controller=Relation}/{action=Index}/{id?}");
             });
         }
     }

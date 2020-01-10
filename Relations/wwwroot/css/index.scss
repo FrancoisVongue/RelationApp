@@ -1,0 +1,159 @@
+﻿a, a:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
+.index-page {
+  &__header {
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  }
+}
+
+.action-bar {
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.relation-table {
+  table-layout: unset;
+  word-break: break-word;
+  width: 100%;
+  margin: 20px 0;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 0.8em;
+  font-weight: 200;
+  
+  
+  th, td {
+    padding: 15px;
+  }
+  tr {
+    &:nth-child(2n + 1) {
+      background-color: #eeeeee;  
+    }
+  }
+}
+
+.button, .button:hover {
+  &, &:hover{
+    color: #fff;
+  }
+  background-color: #1b6ec2;
+  display: inline-block;
+  padding: .5em 1.2em;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+  border: 0;
+}
+
+.button_add {
+  &::after{
+    content: " ﹢";
+    font-weight: bold;
+    display: inline;
+    vertical-align: center;
+    line-height: .5em;
+  }
+}
+
+.table-button{
+  display: inline-block;
+  overflow: hidden;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  text-indent: -9999px;
+  background-color: #cfcfcf;
+  background-size: 1.1em;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  cursor: pointer;
+}
+.table-button_delete{
+  background-image: url(../icons/trash-icon.png);
+  background-color: #eb582b;
+}
+.table-button_edit{
+  background-image: url(../icons/edit-icon.png);
+  background-color: rgb(235, 200, 45);
+}
+
+.category-dropdown{
+  overflow: hidden;
+  position: relative;
+  &__button{
+    //position: relative;
+  }
+  &__button::after{
+    content: "";
+    display: inline-block;
+    border: 5px solid white ;
+    border-color: white transparent transparent;
+    margin-left: .1em;
+    line-height: .8em;
+    transform: rotate3d(1,0,0, 0);
+    transform-origin: center 25%;
+    transition: transform .3s;
+  }
+  &:hover &__button::after{
+    transform: rotate3d(1,0,0, 180deg);
+    transition: transform .3s;
+  }
+  &:hover{  
+    overflow: visible;
+  }
+  &__menu {
+    z-index: 2;
+    position: absolute;
+    top: 100%;
+    min-width: 100%;
+  }
+  &__item{
+    display: block;
+    padding: .3em .8em;
+    background-color: #fff;
+    &:hover {
+      background-color: #e0e0e0;
+      cursor: pointer;
+    }
+  }
+}
+
+.pagination{
+  justify-content: flex-start;
+  &__link{
+    padding: .3em .5em;
+    margin: 0 .1em;
+    font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    border-radius: .2em;
+    &:hover{
+      background-color: #e2e2e2;
+    }
+    &_current{
+      color: white;
+      background-color: #1b6ec2;
+      &:hover{
+        color: white;
+        background-color: #1a66b3;
+      }
+    }
+  }
+}
+
+.field-validation-error {
+  border-radius: .3em;
+  color: #a33;
+  padding: .1em;
+}
+
+.field-validation-error-mark {
+  position: absolute;
+  left: 0px;
+  top: 2.4em;
+  overflow: hidden;
+  text-indent: -999px;
+  background-color: red;
+}

@@ -1,19 +1,30 @@
 ﻿using System.Collections.Generic;
 using System;
+using RelationApp.Domain.Models;
 
 namespace RelationApp.Domain.Iterfaces
 {
-    public interface IRepository<TEntity>
+    public interface IRepository
     {
-        IEnumerable<TEntity> GetAll();
+        IEnumerable<Category> GetCategories();
 
-        TEntity GetOne(Guid id);
+        IEnumerable<Relation> GetAll();
 
-        void Add(TEntity t);
+        int CountRelations(string category);
 
-        void Remove(TEntity t);
+        IEnumerable<Relation> GetFiltered(Func<Relation, bool> predicate);
 
-        void Update(TEntity t);
+        IEnumerable<Relation> GetByCategory(string categoryName);
+
+        string GetPostalCodeFormat(string country);
+
+        Relation GetById(Guid id);
+
+        void Add(Relation t);
+
+        void Delete(Relation t);
+
+        void Update(Relation t);
 
         bool Exists(Guid id);
     }

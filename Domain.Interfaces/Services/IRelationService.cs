@@ -1,21 +1,32 @@
 ﻿using RelationApp.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace RelationApp.Domain.Iterfaces
 {
     public interface IRelationService
-    {        
-        public IEnumerable<Relation> GetAll();
+    {
+        IEnumerable<string> GetCategories();
 
-        public IEnumerable<Relation> GetOrdered(string property);
+        IEnumerable<Relation> GetAll();
 
-        public IEnumerable<Relation> Choose(Func<Relation, bool> predicate);
+        IEnumerable<Relation> GetRelations(ref int page, int rowsPerPage, string sortfield, string category); 
 
-        public void Add(Relation relation);
+        int CountPages(int rowsPerPage, string category);
 
-        public void Remove(Guid relationId);
+        Relation GetById(Guid relationId);
 
-        public void Update(Relation relation);
+        IEnumerable<Relation> OrderByProperty(string property, IEnumerable<Relation> relations);
+
+        IEnumerable<Relation> GetByCategory(string category);
+
+        IEnumerable<Relation> GetFiltered(Expression<Func<Relation, bool>> expression);
+
+        void Add(Relation relation);
+
+        void Delete(Guid relationId);
+
+        void Update(Relation relation);
     }
 }

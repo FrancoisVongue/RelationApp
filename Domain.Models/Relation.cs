@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -28,21 +27,21 @@ namespace RelationApp.Domain.Models
         public bool IsMe { get; set; }
         
         public string Name { get; set; }
-        
+
         public string FullName { get; set; }
         
         public string DepartureName { get; set; }
         
         public string ArrivalName { get; set; }
-        
+
         public string DefaultStreet { get; set; }
-        
+
         public string DefaultPostalCode { get; set; }
-        
+
         public string DefaultCity { get; set; }
-        
+
         public string DefaultCountry { get; set; }
-        
+
         public string EmailAddress { get; set; }
         
         public string Url { get; set; }
@@ -50,7 +49,7 @@ namespace RelationApp.Domain.Models
         public string Imaddress { get; set; }
         
         public string SkypeAddress { get; set; }
-        
+
         public string TelephoneNumber { get; set; }
         
         public string MobileNumber { get; set; }

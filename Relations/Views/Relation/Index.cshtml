@@ -1,0 +1,67 @@
+﻿@model TableInfo
+    <h1 class="index-page__header text-center">Table of Relations</h1>
+    <div class="index-page">
+        <div class="action-bar">
+            <div class="category-dropdown">
+                <button class=" button category-dropdown__button">
+                    Filter Categories
+                </button>
+                <div class="category-dropdown__menu">
+                    <a class="category-dropdown__item" asp-action="Index">Show All</a>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <a class="category-dropdown__item" asp-route-category="@category">@category</a>
+                    }
+                </div>
+            </div>
+            <a asp-action="Create" class="button button_add">Add NEW</a>
+        </div>
+
+        <table class="relation-table">
+            <tr>
+                <th><a asp-route-sortfield="Name">Name</a></th>
+                <th><a asp-route-sortfield="FullName">Full name</a></th>
+                <th><a asp-route-sortfield="TelephoneNumber">Telephone number</a></th>
+                <th><a asp-route-sortfield="EmailAddress">Email address</a></th>
+                <th><a asp-route-sortfield="DefaultCountry">Country</a></th>
+                <th><a asp-route-sortfield="DefaultCity">City</a></th>
+                <th><a asp-route-sortfield="DefaultStreet">Street</a></th>
+                <th><a asp-route-sortfield="DefaultPostalCode">Postal code</a></th>
+                <th></th>
+                <th></th>
+            </tr>
+            @foreach (DisplayRelationViewModel relation in Model.Relations)
+            {
+                <tr>
+                    <td>@relation.Name</td>
+                    <td>@relation.FullName</td>
+                    <td>@relation.TelephoneNumber</td>
+                    <td>@relation.EmailAddress</td>
+                    <td>@relation.DefaultCountry</td>
+                    <td>@relation.DefaultCity</td>
+                    <td>@relation.DefaultStreet</td>
+                    <td>@relation.DefaultPostalCode</td>
+                    <td><a class="table-button table-button_edit" asp-action="Edit" asp-route-id="@relation.Id">Edit</a></td>
+                    <td><a class="table-button table-button_delete" asp-action="Delete" asp-route-id="@relation.Id">Delete</a></td>
+                </tr>
+            }
+        </table>
+
+        <div class="navbar pagination">
+            @if (Model.CurrentPageNumber > 1)
+            {<a class="pagination__link" asp-route-page="@(Model.CurrentPageNumber - 1)">Previous</a>}
+
+            @for (int i = 1; i <= Model.AmountOfPages; i++)
+            { 
+                <a class="pagination__link 
+                   @(Model.CurrentPageNumber == i ? "pagination__link_current disabled btn" : "")"
+                   asp-route-page="@i">@i</a> 
+            }
+
+            @if (Model.CurrentPageNumber < Model.AmountOfPages)
+            { <a class="pagination__link" asp-route-page="@(Model.CurrentPageNumber + 1)">Next</a> }
+        </div>
+    </div>
+    
+
+
