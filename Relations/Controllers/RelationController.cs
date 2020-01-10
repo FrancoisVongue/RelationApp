@@ -60,9 +60,14 @@ namespace RelationApp.Client.Controllers
         [HttpPost]
         public IActionResult Edit(CreateUpdateRelationViewModel viewRelation)
         {
-            var relation = _mapper.Map<Relation>(viewRelation);
-            _relationService.Update(relation);
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                var relation = _mapper.Map<Relation>(viewRelation);
+                _relationService.Update(relation);
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(viewRelation);
         }
 
         public IActionResult Edit(Guid id)

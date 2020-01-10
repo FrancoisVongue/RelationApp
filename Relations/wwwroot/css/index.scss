@@ -145,7 +145,15 @@
 
 .field-validation-error {
   border-radius: .3em;
-  background-color: #a33;
-  color: white;
+  color: #a33;
   padding: .1em;
+}
+
+.field-validation-error-mark {
+  position: absolute;
+  left: 0px;
+  top: 2.4em;
+  overflow: hidden;
+  text-indent: -999px;
+  background-color: red;
 }

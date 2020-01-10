@@ -11,10 +11,14 @@
                 <div class="col-sm-4">
                     <label asp-for="Name"></label>
                     <input class="form-control" type="text" value="@Model.Name" asp-for="Name" />
+                    <span asp-validation-for="Name"></span>
+                    <span class="field-validation-error-mark" asp-validation-for="Name"></span>
                 </div>
                 <div class="col-sm-4">
                     <label asp-for="FullName"></label>
                     <input class="form-control" type="text" value="@Model.FullName" asp-for="FullName" />
+                    <span asp-validation-for="FullName"></span>
+                    <span class="field-validation-error-mark" asp-validation-for="FullName"></span>
                 </div>
             </div>
 
@@ -22,10 +26,14 @@
                 <div class="col-sm-4">
                     <label asp-for="TelephoneNumber"></label>
                     <input class="form-control" type="text" value="@Model.TelephoneNumber" asp-for="TelephoneNumber" />
+                    <span asp-validation-for="TelephoneNumber"></span>
+                    <span class="field-validation-error-mark" asp-validation-for="TelephoneNumber"></span>
                 </div>
                 <div class="col-sm-4">
                     <label asp-for="EmailAddress"></label>
                     <input class="form-control" type="text" value="@Model.EmailAddress" asp-for="EmailAddress" />
+                    <span asp-validation-for="EmailAddress"></span>
+                    <span class="field-validation-error-mark" asp-validation-for="EmailAddress"></span>
                 </div>
             </div>
 
@@ -33,10 +41,14 @@
                 <div class="col-sm-4">
                     <label asp-for="DefaultCountry"></label>
                     <input class="form-control" type="text" value="@Model.DefaultCountry" asp-for="DefaultCountry" />
+                    <span asp-validation-for="DefaultCountry"></span>
+                    <span class="field-validation-error-mark" asp-validation-for="DefaultCountry"></span>
                 </div>
                 <div class="col-sm-4">
                     <label asp-for="DefaultCity"></label>
                     <input class="form-control" type="text" value="@Model.DefaultCity" asp-for="DefaultCity" />
+                    <span asp-validation-for="DefaultCity"></span>
+                    <span class="field-validation-error-mark" asp-validation-for="DefaultCity"></span>
                 </div>
             </div>
 
@@ -44,10 +56,14 @@
                 <div class="col-sm-4">
                     <label asp-for="DefaultStreet"></label>
                     <input class="form-control" type="text" value="@Model.DefaultStreet" asp-for="DefaultStreet" />
+                    <span asp-validation-for="DefaultStreet"></span>
+                    <span class="field-validation-error-mark" asp-validation-for="DefaultStreet"></span>
                 </div>
                 <div class="col-sm-4">
                     <label asp-for="DefaultPostalCode"></label>
                     <input class="form-control" type="text" value="@Model.DefaultPostalCode" asp-for="DefaultPostalCode" />
+                    <span asp-validation-for="DefaultPostalCode"></span>
+                    <span class="field-validation-error-mark" asp-validation-for="DefaultPostalCode"></span>
                 </div>
             </div>
         </div>

@@ -11,7 +11,6 @@ namespace RelationApp.Services
 {
     public class RelationService : IRelationService
     {
-        // todo : category filtration fix
         private IRepository _repository;
 
         public RelationService(IRepository repository)
